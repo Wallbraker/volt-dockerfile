@@ -21,6 +21,15 @@ RUN git clone https://github.com/VoltLang/Watt.git && \
     rm battery-0.1.18-x86_64-linux.tar.gz && \
     mv battery /usr/local/bin
 
+RUN battery config --release --lto Volta Watt && \
+    battery build && \
+    cp Volta/volta /usr/local/bin && \
+    rm -rf .battery
+
+RUN git clone https://github.com/Wallbraker/dEQP.git && \
+    battery config --cmd-volta /usr/local/bin/volta Volta/rt Watt dEQP && \
+    battery build
+
 WORKDIR $HOME
 
 ENTRYPOINT ["/bin/bash"]
